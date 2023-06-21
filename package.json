@@ -1,0 +1,21 @@
+{
+  "name": "exchange-list-system",
+  "version": "1.0.0",
+  "description": "The ExchangeList API allows users to fetch exchange data from the application's database. It provides information about major crypto exchanges, including their names and icons. This data can be used by the frontend to display a page showcasing the available exchanges and their corresponding icons.",
+  "main": "index.js",
+  "scripts": {
+    "local": "nodemon index.js",
+    "start": "index.js"
+  },
+  "author": "Md Iftekhar Alam",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongodb": "^5.6.0",
+    "mongoose": "^7.3.0",
+    "nodemon": "^2.0.22"
+  }
+}
