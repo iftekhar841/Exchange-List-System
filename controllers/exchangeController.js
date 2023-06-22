@@ -3,20 +3,16 @@ const ExchangeModel = require('../model/exchange')
 const iconModel = require('../model/icon')
 
 
-
 const exchangeList = async (req, res, next) => {
 
     try {
-        const options = {
-            method: "POST",
+
+        const response = await axios.post('https://rest.coinapi.io/v1/exchanges', {
             headers: {
                 "X-CoinAPI-Key": "FDAB8705-CEAA-4A23-8A5B-6CC30B8D44D9",
-                "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Content-Type": "application/json"
             }
-        }
-
-        const response = await axios.get('https://rest.coinapi.io/v1/exchanges', options);
+        });
        
         const data = response.data;
 
@@ -27,24 +23,22 @@ const exchangeList = async (req, res, next) => {
          return res.status(200).json({Msg:"data saved", data: data})
     }
     catch (error) {
-        console.error('Error fetching data:', error);
-        res.status(500).send('Error fetching data');
+        console.error('Error fetching data: 1', error);
+        res.status(500).send('Error fetching data ');
     }
 }
+
 
 const exchangeIcon = async (req, res) => {
 
     try {
-        const options = {
-            method: "POST",
+
+        const response = await axios.post('https://rest.coinapi.io/v1/exchanges/icons/32', {
             headers: {
                 "X-CoinAPI-Key": "FDAB8705-CEAA-4A23-8A5B-6CC30B8D44D9",
                 "Content-Type": "application/json",
-                "Accept": "application/json"
             }
-        }
-
-        const response = await axios.get('https://rest.coinapi.io/v1/exchanges/icons/32', options);
+        });
        
         const data = response.data;
 
@@ -54,42 +48,50 @@ const exchangeIcon = async (req, res) => {
     
         return res.status(200).json({Msg:"data saved", data: data})
     }
+
     catch (error) {
-        console.error('Error fetching data:', error);
-        res.status(500).send('Error fetching data');
+        console.error('Error fetching data: 2', error);
+        return res.status(500).send('Error fetching data 2');
     }
 }
+
+
 
 const getExchangeRate = async(req, res) => {
 
     try {
 
-       const rateData =  await ExchangeModel.find();
+       const rateData =  await ExchangeModel.find().lean();
 
-       if(rateData) {
-            res.status(200).json({success : true, Msg:"Exchange rate data fetch successfully",data: rateData});
+       if(rateData.length > 0) {
+
+             return res.status(200).json({success : true, Msg:"Exchange rate data fetch successfully",data: rateData});
+             
        }
        return res.status(200).json({success : false, Msg:"No data found",data: rateData});
         
     } catch (error) {
-        console.error('Error fetching data:', error);
-        res.status(500).send('Error fetching data');
+        console.error('Error fetching data: mauriya', error);
+        res.status(500).json({error:'Error fetching data 3'});
     }
 }
+
+
 
 const getExchangeIcon = async(req, res) => {
     try {
 
         const iconData =  await iconModel.find();
  
-        if(iconData) {
-             res.status(200).json({success : true, Msg:"Exchange icon data fetch successfully",data: iconData});
+        if(iconData) {  
+            return res.status(200).json({success : true, Msg:"Exchange icon data fetch successfully",data: iconData});
+
         }
         return res.status(200).json({success : false, Msg:"No data found",data: iconData});
          
      } catch (error) {
-        console.error('Error fetching data:', error);
-        res.status(500).send('Error fetching data');    
+        console.error('Error fetching data: 4', error);
+        res.status(500).send('Error fetching data 4');    
      }
 }
 
